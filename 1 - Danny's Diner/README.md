@@ -12,7 +12,7 @@ Danny wants to analyze customer data to understand visiting patterns, spending, 
 ````sql
 SELECT
 	sales.customer_id,
-    SUM(menu.price) AS total_spent
+	SUM(menu.price) AS total_spent
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.menu
 	ON sales.product_id = menu.product_id
@@ -35,7 +35,7 @@ ORDER BY sales.customer_id ASC;
 ````sql
 SELECT
 	customer_id,
-    COUNT(DISTINCT(order_date))
+    	COUNT(DISTINCT(order_date))
 FROM dannys_diner.sales
 GROUP BY customer_id;
 ````
@@ -69,7 +69,7 @@ WITH occurences as
 
 SELECT 
 	customer_id,
-    product_name
+    	product_name
 FROM occurences
 WHERE occurence = 1
 GROUP BY customer_id, product_name;
@@ -90,7 +90,7 @@ GROUP BY customer_id, product_name;
 ````sql
 SELECT
 	menu.product_name,
-    COUNT(sales.product_id) AS total_purchase
+    	COUNT(sales.product_id) AS total_purchase
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.menu
 	ON menu.product_id = sales.product_id
@@ -128,8 +128,8 @@ WITH popular AS
 
 SELECT
 	customer_id,
-    product_name,
-    order_count
+    	product_name,
+	order_count
 FROM popular
 WHERE occurence = 1;
 ````
@@ -169,7 +169,7 @@ WITH first_purchase AS
 
 SELECT
 	customer_id,
-    product_name
+    	product_name
 FROM first_purchase
 WHERE occurence = 1
 ORDER BY customer_id ASC;
@@ -207,7 +207,7 @@ WITH first_purchase AS
 
 SELECT
 	customer_id,
-    product_name
+    	product_name
 FROM first_purchase
 WHERE occurence = 1
 ORDER BY customer_id ASC;
@@ -227,14 +227,14 @@ ORDER BY customer_id ASC;
 ````sql
 SELECT
 	sales.customer_id,
-    COUNT(sales.product_id) as total_items,
-    SUM(menu.price) AS amount_spent
+    	COUNT(sales.product_id) as total_items,
+    	SUM(menu.price) AS amount_spent
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.menu
 	ON sales.product_id = menu.product_id
 INNER JOIN dannys_diner.members
 	ON sales.customer_id = members.customer_id
-    AND sales.order_date < members.join_date
+    	AND sales.order_date < members.join_date
 GROUP BY sales.customer_id
 ORDER BY sales.customer_id ASC;
 ````
@@ -264,7 +264,7 @@ WITH points_cte AS
 
 SELECT
 	sales.customer_id,
-    SUM(points_cte.points) AS total_points
+    	SUM(points_cte.points) AS total_points
 FROM dannys_diner.sales
 INNER JOIN points_cte
 	ON sales.product_id = points_cte.product_id
@@ -308,15 +308,15 @@ dates_cte AS (
 
 SELECT
 	sales.customer_id,
-    SUM(points_cte.points) AS total_points
+    	SUM(points_cte.points) AS total_points
 FROM dannys_diner.sales
 INNER JOIN points_cte
 	ON sales.product_id = points_cte.product_id
 INNER JOIN dates_cte
 	ON sales.customer_id = dates_cte.customer_id
-    AND sales.order_date >= dates_cte.join_date
-    AND sales.order_date <= dates_cte.last_date
-    AND dates_cte.join_date <= dates_cte.valid_date
+    	AND sales.order_date >= dates_cte.join_date
+    	AND sales.order_date <= dates_cte.last_date
+    	AND dates_cte.join_date <= dates_cte.valid_date
 GROUP BY sales.customer_id
 ORDER BY sales.customer_id ASC;
 ````
@@ -337,14 +337,14 @@ ORDER BY sales.customer_id ASC;
 ````sql
 SELECT
 	sales.customer_id,
-    sales.order_date,
-    menu.product_name,
-    menu.price,
-    CASE
-    	WHEN members.join_date > sales.order_date THEN 'N'
-        WHEN members.join_date <= sales.order_date THEN 'Y'
-        ELSE 'N'
-    END AS member
+    	sales.order_date,
+    	menu.product_name,
+    	menu.price,
+    	CASE
+		WHEN members.join_date > sales.order_date THEN 'N'
+		WHEN members.join_date <= sales.order_date THEN 'Y'
+		ELSE 'N'
+    	END AS member
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.menu
 	ON sales.product_id = menu.product_id
@@ -382,19 +382,19 @@ WITH data_cte AS
 (
   SELECT
 	sales.customer_id,
-    sales.order_date,
-    menu.product_name,
-    menu.price,
-    CASE
-    	WHEN members.join_date > sales.order_date THEN 'N'
-        WHEN members.join_date <= sales.order_date THEN 'Y'
-        ELSE 'N'
-    END AS member
+    	sales.order_date,
+	menu.product_name,
+	menu.price,
+    	CASE
+    		WHEN members.join_date > sales.order_date THEN 'N'
+        	WHEN members.join_date <= sales.order_date THEN 'Y'
+        	ELSE 'N'
+    	END AS member
   FROM dannys_diner.sales
   INNER JOIN dannys_diner.menu
-      ON sales.product_id = menu.product_id
+	ON sales.product_id = menu.product_id
   LEFT JOIN dannys_diner.members
-      ON sales.customer_id = members.customer_id
+	ON sales.customer_id = members.customer_id
   ORDER BY sales.customer_id, sales.order_date ASC
 )
 
