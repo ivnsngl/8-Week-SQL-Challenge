@@ -145,7 +145,7 @@ ORDER BY runner_orders.runner_id ASC;
 -- 4. How many of each type of pizza was delivered?
 
 SELECT
-	customer_orders.pizza_id,
+customer_orders.pizza_id,
   pizza_names.pizza_name,
   COUNT(customer_orders.pizza_id) AS total_orders
 FROM pizza_runner.customer_orders
@@ -160,8 +160,8 @@ ORDER BY customer_orders.pizza_id ASC;
 
 SELECT
 	customer_orders.customer_id,
-    pizza_names.pizza_name,
-    COUNT(customer_orders.pizza_id) as total
+	pizza_names.pizza_name,
+	COUNT(customer_orders.pizza_id) as total
 FROM pizza_runner.customer_orders
 INNER JOIN pizza_runner.pizza_names
 	ON customer_orders.pizza_id = pizza_names.pizza_id
